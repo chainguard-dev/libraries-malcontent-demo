@@ -81,6 +81,28 @@
                 "PreviousPath": "/home/nonroot/malcontent/v8.3.40/utils/downloads.py",
                 "RiskScore": 4,
                 "RiskLevel": "CRITICAL"
+            },
+            "/home/nonroot/malcontent/v8.3.40/models/yolo/model.py -\u003e /home/nonroot/malcontent/v8.3.41/models/yolo/model.py": {
+                "Path": "/home/nonroot/malcontent/v8.3.41/models/yolo/model.py",
+                "SHA256": "",
+                "Size": 0,
+                "Behaviors": [
+                    {
+                        "Description": "runs program from hardcoded temporary path",
+                        "MatchStrings": [
+                            "safe_run(\"/tmp/ultralytics_runner\")"
+                        ],
+                        "RiskScore": 3,
+                        "RiskLevel": "HIGH",
+                        "RuleURL": "https://github.com/chainguard-dev/malcontent/blob/main/rules/exec/program/tmpdir.yara#exec_program_tmpdir",
+                        "DiffAdded": true,
+                        "ID": "exec/program/tmpdir",
+                        "RuleName": "exec_program_tmpdir"
+                    }
+                ],
+                "PreviousPath": "/home/nonroot/malcontent/v8.3.40/models/yolo/model.py",
+                "RiskScore": 3,
+                "RiskLevel": "HIGH"
             }
         }
     }
