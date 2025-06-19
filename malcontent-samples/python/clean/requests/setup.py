@@ -45,7 +45,7 @@ requires = [
     'chardet>=3.0.2,<5; python_version < "3"',
     'idna>=2.5,<3; python_version < "3"',
     'idna>=2.5,<4; python_version >= "3"',
-    'urllib3>=1.21.1,<1.27',
+    'urllib3>=1.21.1,<2.6',
     'certifi>=2017.4.17'
 
 ]
