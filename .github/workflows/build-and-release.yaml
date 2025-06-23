@@ -14,6 +14,8 @@ env:
   LOCAL_OUTPUT_DIR: "${{ github.workspace }}/scans"
   LOCAL_OUTPUT_FILE: "${{ github.workspace }}/scans/ultralytics-malcontent-diff-v8.3.40-v8.3.41.json"
 
+permissions: {}
+
 jobs:
   python:
     runs-on: ubuntu-latest
@@ -25,6 +27,11 @@ jobs:
       id-token: write
 
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@002fdce3c6a235733a90a27c80493a3241e56863 # v2.12.1
+        with:
+          egress-policy: audit
+
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
