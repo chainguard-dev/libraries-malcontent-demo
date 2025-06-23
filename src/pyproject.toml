@@ -6,7 +6,7 @@ authors = ["You <you@example.com>"]
 
 [tool.poetry.dependencies]
 python = ">=3.8"
-ultralytics = { path = "app/src/malcontent-samples/python/2024.ultralytics/v8.3.40", develop = true }
+ultralytics = { path = "../malcontent-samples/python/2024.ultralytics/v8.3.40", develop = true }
 
 [build-system]
 requires = ["poetry-core"]
