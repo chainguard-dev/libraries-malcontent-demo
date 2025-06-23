@@ -1,13 +1,13 @@
 ARG BASE_IMAGE=cgr.dev/chainguard/python:latest-dev
 FROM ${BASE_IMAGE}
 
-COPY src/ /app/src/
-COPY malcontent-samples/python/2024.ultralytics/v8.3.40/ /app/src/malcontent-samples/python/2024.ultralytics/v8.3.40/
+# Set working directory
 WORKDIR /app/src
 
-# # Install ultralytics in editable mode
-# RUN pip install --no-cache-dir -e ./malcontent-samples/python/2024.ultralytics/v8.3.40
+COPY src/ /app/src/
+COPY malcontent-samples/python/2024.ultralytics/v8.3.40/ /app/malcontent-samples/python/2024.ultralytics/v8.3.40/
 
+# Install Python project and dependencies using Poetry metadata
 RUN pip install --no-cache-dir -e .
 
 CMD ["python", "init-ultralytics.py"]
