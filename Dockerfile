@@ -1,4 +1,5 @@
-FROM cgr.dev/chainguard/python:latest-dev
+ARG BASE_IMAGE=cgr.dev/chainguard/python:latest-dev
+FROM ${BASE_IMAGE}
 
 # Set working directory
 WORKDIR /app
