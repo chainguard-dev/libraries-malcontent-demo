@@ -4,7 +4,7 @@ FROM ${BASE_IMAGE}
 # Set working directory
 WORKDIR /app/src
 
-COPY src/ /app/src/
+COPY src/ .
 COPY malcontent-samples/python/2024.ultralytics/v8.3.40/ ultralytics/
 
 # Install Python project and dependencies using Poetry metadata
