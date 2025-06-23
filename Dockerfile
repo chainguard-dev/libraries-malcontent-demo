@@ -5,11 +5,11 @@ FROM ${BASE_IMAGE}
 WORKDIR /app
 
 # Copy source
-COPY hello.py .
-COPY malcontent-samples/python/2024.ultralytics/v8.3.40/ ./malcontent-samples/python/2024.ultralytics/v8.3.40/
+COPY src/ ./src/
+# COPY malcontent-samples/python/2024.ultralytics/v8.3.40/ ./malcontent-samples/python/2024.ultralytics/v8.3.40/
+# # Install ultralytics in editable mode
+# RUN pip install --no-cache-dir -e ./malcontent-samples/python/2024.ultralytics/v8.3.40
 
-# Install ultralytics in editable mode
-RUN pip install --no-cache-dir -e ./malcontent-samples/python/2024.ultralytics/v8.3.40
+RUN pip install --no-cache-dir -e .
 
-# Run the script
-CMD ["python", "hello.py"]
+CMD ["python", "init-ultralytics.py"]
