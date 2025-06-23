@@ -1,4 +1,4 @@
-name: buildandrelease
+name: build
 
 on:
   push:
@@ -20,7 +20,7 @@ env:
   LOCAL_OUTPUT_FILE: "${{ github.workspace }}/scans/ultralytics-malcontent-diff-v8.3.40-v8.3.41.json"
 
 jobs:
-  build-python:
+  setup:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -38,7 +38,7 @@ jobs:
         id: octo-sts
         with:
           scope: chainguard-dev/libraries-ultralytics-attack-demo
-          identity: buildandrelease
+          identity: build
 
       - name: Install Cosign
         uses: sigstore/cosign-installer@398d4b0eeef1380460a10c8013a76f728fb906ac # v3.9.1
