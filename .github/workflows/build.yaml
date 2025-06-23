@@ -21,7 +21,7 @@ env:
   # LOCAL_OUTPUT_FILE: "${{ github.workspace }}/scans/ultralytics-malcontent-diff-v8.3.40-v8.3.41.json"
 
 jobs:
-  setup:
+  build:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -47,6 +47,9 @@ jobs:
       - uses: chainguard-dev/setup-chainctl@272698817627c158bbd813cb783b62a4b9bbbc67 # v0.3.1
         with:
           identity: "4cf15780a13a9b6576d8b357e6524554c8c12a18/aab27dc39ad870c9"
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@e468171a9de216ec08956ac3ada2f0791b6bd435 #v3.11.1
         
       - name: 'Auth to Registry'
         run: |
@@ -63,21 +66,7 @@ jobs:
               --certificate-identity-regexp="https://issuer.enforce.dev/(${CATALOG_SYNCER}|${APKO_BUILDER})" \
               ${{ env.REDIS_IMAGE_FULL_REF }} | jq        
           docker pull ${{ env.CGR_PYTHON_BUILDER_IMAGE_NAME }}
-          docker pull ${{ env.CGR_PYTHON_RUNTIME_IMAGE_NAME }}
-
-  build:
-    runs-on: ubuntu-latest
-    needs: setup
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-        with:
-          ref: ${{ github.ref }}
-          fetch-depth: 0
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@e468171a9de216ec08956ac3ada2f0791b6bd435 #v3.11.1
+          docker pull ${{ env.CGR_PYTHON_RUNTIME_IMAGE_NAME }}      
 
       - name: Build Docker image using local base image
         run: |
