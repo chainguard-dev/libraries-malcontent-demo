@@ -10,7 +10,8 @@ on:
   workflow_dispatch:
 
 env:
-  CGR_PYTHON_IMAGE_NAME: "cgr.dev/cgr-demo.com/python:3.13-dev"
+  CGR_PYTHON_BUILDER_IMAGE_NAME: "cgr.dev/cgr-demo.com/python:3.13-dev"
+  CGR_PYTHON_RUNTIME_IMAGE_NAME: "cgr.dev/cgr-demo.com/python:3.13"
   # MALCONTENT_IMAGE: "cgr.dev/chainguard/malcontent@sha256:fdfca44c401a5ca98af51292a821278644895bc1963f7a76a733d76647ff0ede"
   # MALCONTENT_SAMPLES_REPO_URL: "https://github.com/chainguard-dev/malcontent-samples.git"
   # MALCONTENT_SAMPLES_DIR: "${{ github.workspace }}/malcontent-samples"
@@ -51,7 +52,7 @@ jobs:
         run: |
           chainctl auth configure-docker
 
-      - name: 'Verify Chainguard Python Image Signature && pre-pull image'
+      - name: 'Verify Chainguard Python Image Signatures && pre-pull images'
         run: |
           # Images will be signed by either the CATALOG_SYNCER or APKO_BUILDER identity in your organization.
           # To find these values for your organization, you can view the "Assumed Identities" page in your organization settings.
@@ -61,7 +62,8 @@ jobs:
               --certificate-oidc-issuer=https://issuer.enforce.dev \
               --certificate-identity-regexp="https://issuer.enforce.dev/(${CATALOG_SYNCER}|${APKO_BUILDER})" \
               ${{ env.REDIS_IMAGE_FULL_REF }} | jq        
-          docker pull ${{ env.CGR_PYTHON_IMAGE_NAME }}
+          docker pull ${{ env.CGR_PYTHON_BUILDER_IMAGE_NAME }}
+          docker pull ${{ env.CGR_PYTHON_RUNTIME_IMAGE_NAME }}
           
       # - name: Run malware test action
       #   uses: chainguard-dev/malcontent-bot@main  # Pin this to a commit SHA if needed
