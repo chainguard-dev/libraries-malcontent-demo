@@ -156,4 +156,5 @@ jobs:
         with:
           sarif_file: ${{ steps.malcontent.outputs.sarif-file }}
           category: malcontent
-          sha: ${{ github.sha }}
+          commit_sha: ${{ github.event.pull_request.head.sha || github.sha }}
+          ref: ${{ github.event.pull_request.head.ref || github.ref }}
