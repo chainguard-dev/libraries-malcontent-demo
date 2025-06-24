@@ -90,9 +90,9 @@ jobs:
         run: |
           echo "Installing libcheck from GitHub release"
           mkdir -p libcheck-bin
-          gh release download \
+          gh release download v0.2.8 \
             --repo chainguard-dev/ecosystems-libcheck \
-            --pattern "*.tar.gz" \
+            --pattern "libcheck_0.2.8_Linux_x86_64.tar.gz" \
             --dir libcheck-bin
       
           tar -xzf libcheck.tar.gz -C libcheck-bin
