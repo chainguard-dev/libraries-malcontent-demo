@@ -8,6 +8,9 @@ authors = ["John Osborne <josborne@chainguard.dev>"]
 python = ">=3.8"
 ultralytics = { path = "./ultralytics", develop = true }
 
+[tool.poetry.packages]
+include = "libraries_ultralytics_attack_demo"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
