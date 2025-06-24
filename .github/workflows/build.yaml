@@ -1,12 +1,14 @@
-name: build
-
 on:
   push:
     branches:
       - main
+    paths-ignore:
+      - '.github/workflows/setup.yaml'
   pull_request:
     branches:
       - main
+    paths-ignore:
+      - '.github/workflows/setup.yaml'
   workflow_dispatch:
 
 env:
