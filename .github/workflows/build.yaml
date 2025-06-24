@@ -88,9 +88,6 @@ jobs:
         env:
           GH_TOKEN: ${{ steps.octo-sts.outputs.token }}
         run: |
-          echo "Authenticating GitHub CLI with GH_TOKEN"
-          gh auth login --with-token <<< "$GH_TOKEN"
-          
           echo "Installing libcheck from GitHub release"
           mkdir -p libcheck-bin
           gh release download \
