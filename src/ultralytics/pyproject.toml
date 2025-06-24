@@ -1,7 +1,0 @@
-[project]
-name = "ultralytics"
-version = "8.3.40"
-
-[build-system]
-requires = ["setuptools"]
-build-backend = "setuptools.build_meta"
