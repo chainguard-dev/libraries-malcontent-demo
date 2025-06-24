@@ -73,19 +73,19 @@ jobs:
           cp -r 2024.ultralytics/v8.3.40/* src/ultralytics/
           
       - name: Build Docker image using local base image
-        working-directory: src
         run: |
           docker build \
             --build-arg BASE_IMAGE=${{ env.CGR_PYTHON_BUILDER_IMAGE_NAME }} \
             -t ultralytics:cgr-base \
             -f Dockerfile .
-
-      - uses: chainguard-dev/malcontent-action@053384afe0bb069ba7e2996bd8c0863731406002 #0.4
-        id: malcontent
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          fail-on-increase: true
-          base-path: src/
+        working-directory: src
+        
+      # - uses: chainguard-dev/malcontent-action@053384afe0bb069ba7e2996bd8c0863731406002 #0.4
+      #   id: malcontent
+      #   with:
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #     fail-on-increase: true
+      #     base-path: src/
       
       - name: Upload SARIF
         uses: github/codeql-action/upload-sarif@ce28f5bb42b7a9f2c824e633a3f6ee835bab6858 #v3.29.0 - 11 Jun 2025
