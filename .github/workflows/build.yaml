@@ -84,13 +84,17 @@ jobs:
           git commit -m "Inject ultralytics vendor dependency malware example"
 
       - name: Install libcheck binary from GitHub release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         if: env.LIBRARY_TYPE == 'VENDORED' && env.LIBRARY_SOURCE == 'CHAINGUARD_LIBRARIES'
         run: |
           echo "Installing libcheck from GitHub release"
           mkdir -p libcheck-bin
-          curl -L \
-            https://github.com/chainguard-dev/ecosystems-libcheck/releases/download/v0.2.8/libcheck_0.2.8_Linux_x86_64.tar.gz \
-            -o libcheck.tar.gz
+          gh auth setup-git
+          gh release download v0.2.8 \
+            --repo chainguard-dev/ecosystems-libcheck \
+            --pattern "libcheck_0.2.8_linux_x86_64.tar.gz" \
+            --dir libcheck-bin
       
           tar -xzf libcheck.tar.gz -C libcheck-bin
           chmod +x libcheck-bin/libcheck
