@@ -94,7 +94,7 @@ jobs:
           mkdir -p tmp_wheels
           curl -L --user \
             "$CHAINGUARD_PYTHON_IDENTITY_ID:$CHAINGUARD_PYTHON_TOKEN" \
-            -o tmp_wheels/ultralytics.whl \
+            -o tmp_wheels/ultralytics-8.3.40-py3-none-any.whl \
             https://libraries.cgr.dev/python/files/15f7d141c3b76b85/cf2fb95d7a92c8aa/ultralytics/ultralytics-8.3.40-py3-none-any.whl
           
           echo "Vendoring Chainguard Ultralytics Library"          
@@ -102,7 +102,7 @@ jobs:
           rm -rf src/ultralytics || true
           mkdir -p src/ultralytics
           pip install wheel
-          python -m wheel unpack tmp_wheels/ultralytics.whl --dest src/
+          python3 -m wheel unpack tmp_wheels/ultralytics-8.3.40-py3-none-any.whl -d src/ultralytics/
           mv src/ultralytics-8.3.40/* src/ultralytics/
           rm -rf src/ultralytics-8.3.40 tmp_wheels
           git config --global user.email "gha@users.noreply.github.com"
