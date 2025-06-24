@@ -12,9 +12,9 @@ on:
 env:
   CGR_PYTHON_BUILDER_IMAGE_NAME: "cgr.dev/cgr-demo.com/python:3.13-dev"
   CGR_PYTHON_RUNTIME_IMAGE_NAME: "cgr.dev/cgr-demo.com/python:3.13"
-  LIBRARY_TYPE: "VENDORED" #Use either VENDORED or DEFAULT
-  LIBRARY_SOURCE: "MALCONTENT_SAMPLES_PYPI" # MALCONTENT_SAMPLES_PYPI or CHAINGUARD if LIBRARY_TYPE=VENDORED
-
+  LIBRARY_TYPE: "VENDORED"
+  LIBRARY_SOURCE: "MALCONTENT_SAMPLES_PYPI" #MALCONTENT_SAMPLES_PYPI or CHAINGUARD_LIBRARIES
+  
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -84,7 +84,7 @@ jobs:
           git commit -m "Inject ultralytics vendor dependency malware example"
 
       - name: Vendor Chainguard Ultralytics Library
-        if: env.LIBRARY_TYPE == 'VENDORED' && env.LIBRARY_SOURCE == 'CHAINGUARD'
+        if: env.LIBRARY_TYPE == 'VENDORED' && env.LIBRARY_SOURCE == 'CHAINGUARD_LIBRARIES'
         run: |
           echo "Pulling Chainguard Ultralytics Library locally"
           eval $(chainctl auth pull-token --library-ecosystem=python --parent=cgr-demo.com --ttl=1m --output=env)
