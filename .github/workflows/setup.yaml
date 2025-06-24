@@ -81,7 +81,7 @@ jobs:
             https://libraries.cgr.dev/python/files/15f7d141c3b76b85/cf2fb95d7a92c8aa/ultralytics/ultralytics-8.3.40-py3-none-any.whl
       
           unzip tmp_wheels/ultralytics-8.3.40-py3-none-any.whl -d tmp_unzip      
-          rm -rf src/ultralytics || true
+          git rm -r src/ultralytics
           mkdir -p src/ultralytics
           mv tmp_unzip/ultralytics/* src/ultralytics/
           rm -rf tmp_unzip
