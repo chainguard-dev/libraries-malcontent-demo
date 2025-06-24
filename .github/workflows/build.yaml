@@ -66,12 +66,7 @@ jobs:
           
           docker pull ${{ env.CGR_PYTHON_BUILDER_IMAGE_NAME }}
           docker pull ${{ env.CGR_PYTHON_RUNTIME_IMAGE_NAME }}      
-
-      - name: Copy ultralytics source into build context
-        run: |
-          mkdir -p src/ultralytics
-          cp -r 2024.ultralytics/v8.3.40/* src/ultralytics/
-          
+         
       - name: Build Docker image using local base image
         run: |
           docker build \
