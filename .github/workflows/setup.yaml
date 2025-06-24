@@ -40,7 +40,7 @@ jobs:
           echo "Resetting src/ultralytics to community ultralytics v8.3.39 from GitHub"          
           mkdir -p tmp_wheels tmp_unzip
           curl -L -o tmp_wheels/ultralytics-8.3.39-py3-none-any.whl \
-            https://github.com/ultralytics/ultralytics/releases/download/v8.3.39/ultralytics-8.3.39-py3-none-any.whl
+            https://files.pythonhosted.org/packages/e7/66/3c3fd38fc2350b5c376bcfc44fa682dc4282d39856d3dfc54679a8bcec7e/ultralytics-8.3.39-py3-none-any.whl
           rm -rf src/ultralytics || true
           mkdir -p src/ultralytics
 
