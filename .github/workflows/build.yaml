@@ -35,7 +35,7 @@ jobs:
       - uses: octo-sts/action@6177b4481c00308b3839969c3eca88c96a91775f # v1.0.0
         id: octo-sts-libcheck
         with:
-          scope: chainguard-dev/ecosystems-libcheck
+          scope: chainguard-dev/libraries-ultralytics-attack-demo
           identity: libcheck
 
       - uses: octo-sts/action@6177b4481c00308b3839969c3eca88c96a91775f # v1.0.0
