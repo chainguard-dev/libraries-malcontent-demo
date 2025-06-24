@@ -12,13 +12,6 @@ on:
 env:
   CGR_PYTHON_BUILDER_IMAGE_NAME: "cgr.dev/cgr-demo.com/python:3.13-dev"
   CGR_PYTHON_RUNTIME_IMAGE_NAME: "cgr.dev/cgr-demo.com/python:3.13"
-  # MALCONTENT_IMAGE: "cgr.dev/chainguard/malcontent@sha256:fdfca44c401a5ca98af51292a821278644895bc1963f7a76a733d76647ff0ede"
-  # MALCONTENT_SAMPLES_REPO_URL: "https://github.com/chainguard-dev/malcontent-samples.git"
-  # MALCONTENT_SAMPLES_DIR: "${{ github.workspace }}/malcontent-samples"
-  # MALCONTENT_ULTRALYTICS_SAMPLES_DIR: "${{ github.workspace }}/malcontent-samples/python/2024.ultralytics"
-  # CONTAINER_OUTPUT_FILE: "/home/nonroot/ultralytics-malcontent-diff-v8.3.40-v8.3.41.json"
-  # LOCAL_OUTPUT_DIR: "${{ github.workspace }}/scans"
-  # LOCAL_OUTPUT_FILE: "${{ github.workspace }}/scans/ultralytics-malcontent-diff-v8.3.40-v8.3.41.json"
 
 jobs:
   build:
