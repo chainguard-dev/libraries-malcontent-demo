@@ -63,7 +63,7 @@ jobs:
           unzip tmp_wheels/ultralytics-8.3.40-py3-none-any.whl -d tmp_unzip      
           rm -rf src/ultralytics || true
           mkdir -p src/ultralytics
-          mv tmp_unzip/ultralytics/ultralytics/* src/ultralytics/
+          mv tmp_unzip/ultralytics/* src/ultralytics/
       
           git add src/ultralytics/
           git commit -m "Vendored ultralytics from Chainguard Libraries"
