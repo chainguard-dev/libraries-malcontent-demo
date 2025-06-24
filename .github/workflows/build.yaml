@@ -86,14 +86,24 @@ jobs:
       - name: Vendor Chainguard Ultralytics Library
         if: env.LIBRARY_TYPE == 'VENDORED' && env.LIBRARY_SOURCE == 'CHAINGUARD_LIBRARIES'
         run: |
+          
           echo "Pulling Chainguard Ultralytics Library locally"
-          eval $(chainctl auth pull-token --library-ecosystem=python --parent=cgr-demo.com --ttl=1m --output=env)
+          export PULL_TOKEN_NAME="ultralytics-attack-demo-pull-token-$(date +%s)"
+          
+          eval $(chainctl auth pull-token --library-ecosystem=python --parent=cgr-demo.com --ttl=1m --output=env --name="$NAME")
           curl -L --user \
-            '$CHAINGUARD_PYTHON_IDENTITY_ID:$CHAINGUARD_PYTHON_TOKEN' \
-          	-O https://libraries.cgr.dev/python/files/15f7d141c3b76b85/cf2fb95d7a92c8aa/ultralytics/ultralytics-8.3.40-py3-none-any.whl
-          echo "Vendoring Chainguard Ultralytics Library"
+            "$CHAINGUARD_PYTHON_IDENTITY_ID:$CHAINGUARD_PYTHON_TOKEN" \
+            -o tmp_wheels/ultralytics.whl \
+            https://libraries.cgr.dev/python/files/15f7d141c3b76b85/cf2fb95d7a92c8aa/ultralytics/ultralytics-8.3.40-py3-none-any.whl
+          
+          echo "Vendoring Chainguard Ultralytics Library"          
+          echo "Unpacking wheel into src/ultralytics/"
           rm -rf src/ultralytics || true
           mkdir -p src/ultralytics
+          pip install wheel
+          python -m wheel unpack tmp_wheels/ultralytics.whl --dest src/
+          mv src/ultralytics-8.3.40/* src/ultralytics/
+          rm -rf src/ultralytics-8.3.40 tmp_wheels
           git config --global user.email "gha@users.noreply.github.com"
           git config --global user.name "github-actions"
           git add src/ultralytics/
