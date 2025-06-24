@@ -12,8 +12,6 @@ on:
 env:
   CGR_PYTHON_BUILDER_IMAGE_NAME: "cgr.dev/cgr-demo.com/python:3.13-dev"
   CGR_PYTHON_RUNTIME_IMAGE_NAME: "cgr.dev/cgr-demo.com/python:3.13"
-  LIBRARY_TYPE: "VENDORED"
-  LIBRARY_SOURCE: "CHAINGUARD_LIBRARIES" #MALCONTENT_SAMPLES_PYPI or CHAINGUARD_LIBRARIES
   
 jobs:
   build:
@@ -72,21 +70,6 @@ jobs:
           docker pull ${{ env.CGR_PYTHON_BUILDER_IMAGE_NAME }}
           docker pull ${{ env.CGR_PYTHON_RUNTIME_IMAGE_NAME }}      
          
-      - name: Vendor ultralytics malware example from malcontent-samples
-        if: env.LIBRARY_TYPE == 'VENDORED' && env.LIBRARY_SOURCE == 'MALCONTENT_SAMPLES_PYPI'
-        run: |
-          echo "Using vendored ultralytics from malcontent-samples-ultralytics/v8.3.40/"
-          rm -rf src/ultralytics || true
-          mkdir -p src/ultralytics
-          cp -pr malcontent-samples-ultralytics/v8.3.40/* src/ultralytics/
-          git config --global user.email "gha@users.noreply.github.com"
-          git config --global user.name "github-actions"
-          git add src/ultralytics/
-          git commit -m "Inject ultralytics vendor dependency malware example"     
-
-          echo "GITHUB_SHA=$(git rev-parse HEAD)" >> $GITHUB_ENV
-          echo "GITHUB_REF=$(git symbolic-ref HEAD)" >> $GITHUB_ENV
-      
       # - name: Install and run libcheck
       #   if: env.LIBRARY_TYPE == 'VENDORED' && env.LIBRARY_SOURCE == 'CHAINGUARD_LIBRARIES'
       #   env:
@@ -107,33 +90,6 @@ jobs:
       #     echo "Runnling libcheck https://github.com/chainguard-dev/ecosystems-libcheck"
       #     ./libcheck -o csv --detailed tmp_wheels/ultralytics-8.3.40-py3-none-any.whl > compliance-report.csv      
       
-      - name: Pull and vendor Chainguard Ultralytics Library
-        if: env.LIBRARY_TYPE == 'VENDORED' && env.LIBRARY_SOURCE == 'CHAINGUARD_LIBRARIES'
-        run: |
-          echo "Pulling Chainguard Ultralytics Library locally"
-          export CGR_PULL_TOKEN_NAME="ultralytics-attack-demo-pull-token-$(date +%s)"
-          
-          eval $(chainctl auth pull-token --library-ecosystem=python --parent=cgr-demo.com --ttl=1m --output=env --name="$CGR_PULL_TOKEN_NAME")
-      
-          mkdir -p tmp_wheels
-          curl -L --user "$CHAINGUARD_PYTHON_IDENTITY_ID:$CHAINGUARD_PYTHON_TOKEN" \
-            -o tmp_wheels/ultralytics-8.3.40-py3-none-any.whl \
-            https://libraries.cgr.dev/python/files/15f7d141c3b76b85/cf2fb95d7a92c8aa/ultralytics/ultralytics-8.3.40-py3-none-any.whl
-            
-          echo "Unpacking wheel into src/ultralytics/"
-          rm -rf src/ultralytics || true
-          mkdir -p src/ultralytics
-          unzip tmp_wheels/ultralytics-8.3.40-py3-none-any.whl -d src/ultralytics/
-          rm -rf tmp_wheels
-          
-          git config --global user.email "gha@users.noreply.github.com"
-          git config --global user.name "github-actions"
-          git add src/ultralytics/
-          git commit -m "Add Chainguard ultralytics library as a vendor dependency"
-
-          echo "GITHUB_SHA=$(git rev-parse HEAD)" >> $GITHUB_ENV
-          echo "GITHUB_REF=$(git symbolic-ref HEAD)" >> $GITHUB_ENV
-          
       - name: Build Docker image using local base image
         run: |
           docker build \
@@ -156,5 +112,3 @@ jobs:
         with:
           sarif_file: ${{ steps.malcontent.outputs.sarif-file }}
           category: malcontent
-          sha: ${{ github.sha }}
-          ref: ${{ github.ref }}
