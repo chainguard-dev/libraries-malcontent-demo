@@ -1,16 +1,10 @@
 on:
-  push:
-    branches:
-      - main
-    paths-ignore:
-      - '.github/workflows/setup.yaml'
-  pull_request:
-    branches:
-      - main
-    paths-ignore:
-      - '.github/workflows/setup.yaml'
   workflow_dispatch:
-
+  workflow_run:
+    workflows: ["setup"]
+    types:
+      - completed
+      
 env:
   CGR_PYTHON_BUILDER_IMAGE_NAME: "cgr.dev/cgr-demo.com/python:3.13-dev"
   CGR_PYTHON_RUNTIME_IMAGE_NAME: "cgr.dev/cgr-demo.com/python:3.13"
