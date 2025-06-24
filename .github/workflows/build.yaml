@@ -83,7 +83,7 @@ jobs:
           git add src/ultralytics/
           git commit -m "Inject ultralytics vendor dependency malware example"     
       
-      # - name: Install libcheck binary from GitHub release
+      # - name: Install and run libcheck
       #   if: env.LIBRARY_TYPE == 'VENDORED' && env.LIBRARY_SOURCE == 'CHAINGUARD_LIBRARIES'
       #   env:
       #     GH_TOKEN: ${{ steps.octo-sts-libcheck.outputs.token }}
@@ -100,8 +100,10 @@ jobs:
 
       #     echo "libcheck installed to libcheck-bin/"
       #     ./libcheck-bin/libcheck --version || echo "Libcheck installed but version check failed"
+      #     echo "Runnling libcheck https://github.com/chainguard-dev/ecosystems-libcheck"
+      #     ./libcheck -o csv --detailed tmp_wheels/ultralytics-8.3.40-py3-none-any.whl > compliance-report.csv      
       
-      - name: Pull Chainguard Ultralytics Library
+      - name: Pull and vendor Chainguard Ultralytics Library
         if: env.LIBRARY_TYPE == 'VENDORED' && env.LIBRARY_SOURCE == 'CHAINGUARD_LIBRARIES'
         run: |
           echo "Pulling Chainguard Ultralytics Library locally"
@@ -113,16 +115,7 @@ jobs:
           curl -L --user "$CHAINGUARD_PYTHON_IDENTITY_ID:$CHAINGUARD_PYTHON_TOKEN" \
             -o tmp_wheels/ultralytics-8.3.40-py3-none-any.whl \
             https://libraries.cgr.dev/python/files/15f7d141c3b76b85/cf2fb95d7a92c8aa/ultralytics/ultralytics-8.3.40-py3-none-any.whl
-      
-      # - name: Run Libcheck against Chainguard Ultralytics Library
-      #   if: env.LIBRARY_TYPE == 'VENDORED' && env.LIBRARY_SOURCE == 'CHAINGUARD_LIBRARIES'
-      #   run: |        
-      #     echo "Runnling libcheck https://github.com/chainguard-dev/ecosystems-libcheck"
-      #     ./libcheck -o csv --detailed tmp_wheels/ultralytics-8.3.40-py3-none-any.whl > compliance-report.csv
-
-      - name: Vendor ultralytics Chainguard Library
-        if: env.LIBRARY_TYPE == 'VENDORED' && env.LIBRARY_SOURCE == 'CHAINGUARD_LIBRARIES'
-        run: |        
+            
           echo "Unpacking wheel into src/ultralytics/"
           rm -rf src/ultralytics || true
           mkdir -p src/ultralytics
