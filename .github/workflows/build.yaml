@@ -83,33 +83,54 @@ jobs:
           git add src/ultralytics/
           git commit -m "Inject ultralytics vendor dependency malware example"
 
-      - name: Vendor Chainguard Ultralytics Library
+      - name: Install libcheck binary from GitHub release
         if: env.LIBRARY_TYPE == 'VENDORED' && env.LIBRARY_SOURCE == 'CHAINGUARD_LIBRARIES'
         run: |
-          
+          echo "Installing libcheck from GitHub release"
+          mkdir -p libcheck-bin
+          curl -L \
+            https://github.com/chainguard-dev/ecosystems-libcheck/releases/download/v0.2.8/libcheck_0.2.8_Linux_x86_64.tar.gz \
+            -o libcheck.tar.gz
+      
+          tar -xzf libcheck.tar.gz -C libcheck-bin
+          chmod +x libcheck-bin/libcheck
+
+          echo "libcheck installed to libcheck-bin/"
+          ./libcheck-bin/libcheck --version || echo "Libcheck installed but version check failed"
+      
+      - name: Pull Chainguard Ultralytics Library
+        if: env.LIBRARY_TYPE == 'VENDORED' && env.LIBRARY_SOURCE == 'CHAINGUARD_LIBRARIES'
+        run: |
           echo "Pulling Chainguard Ultralytics Library locally"
           export CGR_PULL_TOKEN_NAME="ultralytics-attack-demo-pull-token-$(date +%s)"
           
           eval $(chainctl auth pull-token --library-ecosystem=python --parent=cgr-demo.com --ttl=1m --output=env --name="$CGR_PULL_TOKEN_NAME")
+      
           mkdir -p tmp_wheels
-          curl -L --user \
-            "$CHAINGUARD_PYTHON_IDENTITY_ID:$CHAINGUARD_PYTHON_TOKEN" \
+          curl -L --user "$CHAINGUARD_PYTHON_IDENTITY_ID:$CHAINGUARD_PYTHON_TOKEN" \
             -o tmp_wheels/ultralytics-8.3.40-py3-none-any.whl \
             https://libraries.cgr.dev/python/files/15f7d141c3b76b85/cf2fb95d7a92c8aa/ultralytics/ultralytics-8.3.40-py3-none-any.whl
-          
-          echo "Vendoring Chainguard Ultralytics Library"          
+      
+      - name: Run Libcheck against Chainguard Ultralytics Library
+        if: env.LIBRARY_TYPE == 'VENDORED' && env.LIBRARY_SOURCE == 'CHAINGUARD_LIBRARIES'
+        run: |        
+          echo "Runnling libcheck https://github.com/chainguard-dev/ecosystems-libcheck"
+          ./libcheck -o csv --detailed tmp_wheels/ultralytics-8.3.40-py3-none-any.whl > compliance-report.csv
+
+      - name: Vendor ultralytics Chainguard Library
+        if: env.LIBRARY_TYPE == 'VENDORED' && env.LIBRARY_SOURCE == 'CHAINGUARD_LIBRARIES'
+        run: |        
           echo "Unpacking wheel into src/ultralytics/"
           rm -rf src/ultralytics || true
           mkdir -p src/ultralytics
-          pip install wheel
-          python3 -m wheel unpack tmp_wheels/ultralytics-8.3.40-py3-none-any.whl -d src/ultralytics/
-          mv src/ultralytics-8.3.40/* src/ultralytics/
-          rm -rf src/ultralytics-8.3.40 tmp_wheels
+          unzip tmp_wheels/ultralytics-8.3.40-py3-none-any.whl -d src/ultralytics/
+          rm -rf tmp_wheels
+          
           git config --global user.email "gha@users.noreply.github.com"
           git config --global user.name "github-actions"
           git add src/ultralytics/
-          git commit -m "Inject ultralytics vendor dependency malware example"
-
+          git commit -m "Add Chainguard ultralytics library as a vendor dependency"
+          
       - name: Build Docker image using local base image
         run: |
           docker build \
