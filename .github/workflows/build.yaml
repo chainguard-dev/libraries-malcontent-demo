@@ -88,9 +88,10 @@ jobs:
         run: |
           
           echo "Pulling Chainguard Ultralytics Library locally"
-          export PULL_TOKEN_NAME="ultralytics-attack-demo-pull-token-$(date +%s)"
+          export CGR_PULL_TOKEN_NAME="ultralytics-attack-demo-pull-token-$(date +%s)"
           
-          eval $(chainctl auth pull-token --library-ecosystem=python --parent=cgr-demo.com --ttl=1m --output=env --name="$NAME")
+          eval $(chainctl auth pull-token --library-ecosystem=python --parent=cgr-demo.com --ttl=1m --output=env --name="$CGR_PULL_TOKEN_NAME")
+          mkdir -p tmp_wheels
           curl -L --user \
             "$CHAINGUARD_PYTHON_IDENTITY_ID:$CHAINGUARD_PYTHON_TOKEN" \
             -o tmp_wheels/ultralytics.whl \
