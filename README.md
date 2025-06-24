@@ -1,8 +1,40 @@
 # Chainguard Libraries Demo: Preventing Distribution Supply Chain Attacks in PyPI
 
-## Ultralytics Supply Chain Attack
+## Description
 
-### Background Information
+This demo showcases how to detect and prevent distribution-level supply chain attacks by using Chainguard Libraries as the safe source for open source. It compares different variants of the `ultralytics` package to highlight risks flagged by [malcontent-action](https://github.com/chainguard-dev/malcontent-action) which checks git commits using [malcontent diff](https://github.com/chainguard-dev/malcontent?tab=readme-ov-file#diff) 
+
+## Usage
+
+Update the setup.yaml to switch between different sources for ultralytics. Once setup.yaml the build workflow will kick off which checks for malware.
+
+### Compare the Community Releases of Ultralytics v8.3.39 vs v8.3.40
+
+> ⚠️ **Note:** The `v8.3.40` release was removed from PyPI. This demo uses a snapshot from the [malcontent-samples repository](https://github.com/chainguard-dev/malcontent-samples/tree/main/python/2024.ultralytics/v8.3.40).
+
+To test the malicious sample, update `.github/workflows/setup.yaml`:
+
+````yaml
+env:
+  LIBRARY_SOURCE: "MALCONTENT_SAMPLES_PYPI"
+````
+
+![image](https://github.com/user-attachments/assets/141ea426-b85b-4f84-af5d-846dadbcff4d)
+
+
+### Compare the community release of Ultralytics v8.3.39 versus a Chainguard Build of Ultralyitics v8.3.40
+
+To test the safe Chainguard Library update `.github/workflows/setup.yaml`:
+
+````yaml
+env:
+  LIBRARY_SOURCE: "CHAINGUARD_LIBRARIES"
+````
+
+You should see no changes in risk detected:
+![image](https://github.com/user-attachments/assets/14724483-8842-4ed6-a6b9-7c7d73c16d55)
+
+## Ultralytics Supply Chain Attack Background Information
 
 This code was injected into the PyPI release artifacts and was not present in the public GitHub repository.  
 See the advisory details here:
