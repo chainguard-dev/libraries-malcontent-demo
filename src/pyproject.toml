@@ -1,8 +1,8 @@
 [tool.poetry]
-name = "your-project"
+name = "libraries-ultralytics-attack-demo"
 version = "0.1.0"
-description = ""
-authors = ["You <you@example.com>"]
+description = "Demo project using ultralytics for malware detection"
+authors = ["John Osborne <josborne@chainguard.dev>"]
 
 [tool.poetry.dependencies]
 python = ">=3.8"
