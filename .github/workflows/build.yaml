@@ -83,6 +83,9 @@ jobs:
           git config --global user.name "github-actions"
           git add src/ultralytics/
           git commit -m "Inject ultralytics vendor dependency malware example"     
+
+          echo "GITHUB_SHA=$(git rev-parse HEAD)" >> $GITHUB_ENV
+          echo "GITHUB_REF=$(git symbolic-ref HEAD)" >> $GITHUB_ENV
       
       # - name: Install and run libcheck
       #   if: env.LIBRARY_TYPE == 'VENDORED' && env.LIBRARY_SOURCE == 'CHAINGUARD_LIBRARIES'
@@ -127,6 +130,9 @@ jobs:
           git config --global user.name "github-actions"
           git add src/ultralytics/
           git commit -m "Add Chainguard ultralytics library as a vendor dependency"
+
+          echo "GITHUB_SHA=$(git rev-parse HEAD)" >> $GITHUB_ENV
+          echo "GITHUB_REF=$(git symbolic-ref HEAD)" >> $GITHUB_ENV
           
       - name: Build Docker image using local base image
         run: |
