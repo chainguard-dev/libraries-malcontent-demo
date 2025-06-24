@@ -11,7 +11,7 @@ env:
   LIBRARY_SOURCE: "MALCONTENT_SAMPLES_PYPI" #CHAINGUARD_LIBRARIES or MALCONTENT_SAMPLES_PYPI
 
 jobs:
-  vendor:
+  setup:
     runs-on: ubuntu-latest
     permissions:
       contents: write
