@@ -35,11 +35,20 @@ jobs:
           scope: chainguard-dev/libraries-ultralytics-attack-demo
           identity: setup
           
-      - name: Clean existing vendored ultralytics files
-        run: |
-          echo "Removing any tracked files in src/ultralytics"
-          git rm -rf src/ultralytics || true
-          git commit -m "Remove existing ultralytics vendor content" || echo "Nothing to remove"
+      - name: Reset to community ultralytics v8.3.39
+        run: |          
+          echo "Resetting src/ultralytics to community ultralytics v8.3.39 from GitHub"          
+          mkdir -p tmp_wheels tmp_unzip
+          curl -L -o tmp_wheels/ultralytics-8.3.39-py3-none-any.whl \
+            https://github.com/ultralytics/ultralytics/releases/download/v8.3.39/ultralytics-8.3.39-py3-none-any.whl
+          rm -rf src/ultralytics || true
+          mkdir -p src/ultralytics
+
+          unzip tmp_wheels/ultralytics-8.3.39-py3-none-any.whl -d tmp_unzip
+          mv tmp_unzip/ultralytics/* src/ultralytics/
+
+          git add src/ultralytics/
+          git commit -m "Reset to community ultralytics v8.3.39 from GitHub"
           git push origin HEAD:${{ github.ref }}
           
       - name: Vendor from MALCONTENT_SAMPLES_PYPI
