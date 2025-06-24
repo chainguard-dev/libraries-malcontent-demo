@@ -151,7 +151,7 @@ jobs:
       - uses: chainguard-dev/malcontent-action@228e2bc9f055a1cd367d59e380c947e76a6e25d4 #June 24 2025 HEAD commit
         id: malcontent
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ steps.octo-sts.outputs.token }}
           fail-on-increase: true
       
       - name: Upload SARIF
