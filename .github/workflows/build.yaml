@@ -129,10 +129,10 @@ jobs:
           unzip tmp_wheels/ultralytics-8.3.40-py3-none-any.whl -d src/ultralytics/
           rm -rf tmp_wheels
           
-          git config --global user.email "gha@users.noreply.github.com"
-          git config --global user.name "github-actions"
-          git add src/ultralytics/
-          git commit -m "Add Chainguard ultralytics library as a vendor dependency"
+          # git config --global user.email "gha@users.noreply.github.com"
+          # git config --global user.name "github-actions"
+          # git add src/ultralytics/
+          # git commit -m "Add Chainguard ultralytics library as a vendor dependency"
           
       - name: Build Docker image using local base image
         run: |
@@ -156,5 +156,3 @@ jobs:
         with:
           sarif_file: ${{ steps.malcontent.outputs.sarif-file }}
           category: malcontent
-          commit_sha: ${{ github.event.pull_request.head.sha || github.sha }}
-          ref: ${{ github.event.pull_request.head.ref || github.ref }}
