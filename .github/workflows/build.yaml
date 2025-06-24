@@ -85,6 +85,7 @@ jobs:
         id: malcontent
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          fail-on-increase: true
       
       - name: Upload SARIF
         uses: github/codeql-action/upload-sarif@ce28f5bb42b7a9f2c824e633a3f6ee835bab6858 #v3.29.0 - 11 Jun 2025
@@ -92,10 +93,3 @@ jobs:
         with:
           sarif_file: ${{ steps.malcontent.outputs.sarif-file }}
           category: malcontent
-      
-      # - name: Run malware test action
-      #   uses: chainguard-dev/malcontent-bot@main  # Pin this to a commit SHA if needed
-      #   with:
-      #     malcontent-image: "cgr.dev/chainguard/malcontent@sha256:fdfca44c401a5ca98af51292a821278644895bc1963f7a76a733d76647ff0ede"
-      #     before-dir: ${{ github.workspace }}/malcontent-samples/python/2024.ultralytics/v8.3.40
-      #     after-dir: ${{ github.workspace }}/malcontent-samples/python/2024.ultralytics/v8.3.41
