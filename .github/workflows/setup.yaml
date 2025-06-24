@@ -51,22 +51,23 @@ jobs:
         if: env.LIBRARY_SOURCE == 'CHAINGUARD_LIBRARIES'
         run: |
           echo "Vendoring ultralytics from Chainguard Libraries..."
+          
+          mkdir -p tmp_wheels tmp_unzip
+          
           eval $(chainctl auth pull-token --library-ecosystem=python --parent=cgr-demo.com --ttl=1m --output=env)
-
+          
           curl -L --user "$CHAINGUARD_PYTHON_IDENTITY_ID:$CHAINGUARD_PYTHON_TOKEN" \
             -o tmp_wheels/ultralytics-8.3.40-py3-none-any.whl \
             https://libraries.cgr.dev/python/files/15f7d141c3b76b85/cf2fb95d7a92c8aa/ultralytics/ultralytics-8.3.40-py3-none-any.whl
-
+      
+          unzip tmp_wheels/ultralytics-8.3.40-py3-none-any.whl -d tmp_unzip      
           rm -rf src/ultralytics || true
           mkdir -p src/ultralytics
-          mkdir -p tmp_wheels
-          unzip tmp_wheels/ultralytics-8.3.40-py3-none-any.whl -d tmp_unzip
-          mv tmp_unzip//ultralytics/ultralytics/ src/ultralytics/
-          rm -rf tmp_wheels
-
+          mv tmp_unzip/ultralytics/ultralytics/* src/ultralytics/
+      
           git add src/ultralytics/
           git commit -m "Vendored ultralytics from Chainguard Libraries"
-
+          
       - name: Push vendor commit
         run: |
           git push origin HEAD:${{ github.ref }}
