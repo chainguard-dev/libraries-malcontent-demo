@@ -12,7 +12,8 @@ on:
 env:
   CGR_PYTHON_BUILDER_IMAGE_NAME: "cgr.dev/cgr-demo.com/python:3.13-dev"
   CGR_PYTHON_RUNTIME_IMAGE_NAME: "cgr.dev/cgr-demo.com/python:3.13"
-  LIBRARY_SOURCE: "DEFAULT" #Use either VENDORED or DEFAULT
+  LIBRARY_TYPE: "VENDORED" #Use either VENDORED or DEFAULT
+  LIBRARY_SOURCE: "MALCONTENT_SAMPLES_PYPI" # MALCONTENT_SAMPLES_PYPI or CHAINGUARD if LIBRARY_TYPE=VENDORED
 
 jobs:
   build:
@@ -71,12 +72,28 @@ jobs:
           docker pull ${{ env.CGR_PYTHON_RUNTIME_IMAGE_NAME }}      
          
       - name: Vendor ultralytics malware example from malcontent-samples
-        if: env.LIBRARY_SOURCE == 'VENDORED'
+        if: env.LIBRARY_TYPE == 'VENDORED' && env.LIBRARY_SOURCE == 'MALCONTENT_SAMPLES_PYPI'
         run: |
           echo "Using vendored ultralytics from malcontent-samples-ultralytics/v8.3.40/"
           rm -rf src/ultralytics || true
           mkdir -p src/ultralytics
           cp -pr malcontent-samples-ultralytics/v8.3.40/* src/ultralytics/
+          git config --global user.email "gha@users.noreply.github.com"
+          git config --global user.name "github-actions"
+          git add src/ultralytics/
+          git commit -m "Inject ultralytics vendor dependency malware example"
+
+      - name: Vendor Chainguard Ultralytics Library
+        if: env.LIBRARY_TYPE == 'VENDORED' && env.LIBRARY_SOURCE == 'CHAINGUARD'
+        run: |
+          echo "Pulling Chainguard Ultralytics Library locally"
+          eval $(chainctl auth pull-token --library-ecosystem=python --parent=cgr-demo.com --ttl=1m --output=env)
+          curl -L --user \
+            '$CHAINGUARD_PYTHON_IDENTITY_ID:$CHAINGUARD_PYTHON_TOKEN' \
+          	-O https://libraries.cgr.dev/python/files/15f7d141c3b76b85/cf2fb95d7a92c8aa/ultralytics/ultralytics-8.3.40-py3-none-any.whl
+          echo "Vendoring Chainguard Ultralytics Library"
+          rm -rf src/ultralytics || true
+          mkdir -p src/ultralytics
           git config --global user.email "gha@users.noreply.github.com"
           git config --global user.name "github-actions"
           git add src/ultralytics/
