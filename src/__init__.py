@@ -1,9 +1,7 @@
 from ultralytics import YOLO
 
 def main():
-    print("Hello, world!")
-    model = YOLO("yolov8n.pt")  # Example usage
-    print("Model loaded:", model)
+    print(f"Loaded ultralytics version: {getattr(ultralytics, '__version__', 'unknown')}")
 
 if __name__ == "__main__":
     main()
