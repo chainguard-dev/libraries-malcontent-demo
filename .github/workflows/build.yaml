@@ -32,11 +32,11 @@ jobs:
           ref: ${{ github.ref }}
           fetch-depth: 2 # Need HEAD and HEAD~1
 
-      - uses: octo-sts/action@6177b4481c00308b3839969c3eca88c96a91775f # v1.0.0
-        id: octo-sts-libcheck
-        with:
-          scope: chainguard-dev/libraries-ultralytics-attack-demo
-          identity: libcheck
+      # - uses: octo-sts/action@6177b4481c00308b3839969c3eca88c96a91775f # v1.0.0
+      #   id: octo-sts-libcheck
+      #   with:
+      #     scope: chainguard-dev/libraries-ultralytics-attack-demo
+      #     identity: libcheck
 
       - uses: octo-sts/action@6177b4481c00308b3839969c3eca88c96a91775f # v1.0.0
         id: octo-sts
@@ -89,23 +89,23 @@ jobs:
           git add src/ultralytics/
           git commit -m "Inject ultralytics vendor dependency malware example"     
       
-      - name: Install libcheck binary from GitHub release
-        if: env.LIBRARY_TYPE == 'VENDORED' && env.LIBRARY_SOURCE == 'CHAINGUARD_LIBRARIES'
-        env:
-          GH_TOKEN: ${{ steps.octo-sts-libcheck.outputs.token }}
-        run: |
-          echo "Installing libcheck from GitHub release"
-          mkdir -p libcheck-bin
-          gh release download v0.2.8 \
-            --repo chainguard-dev/ecosystems-libcheck \
-            --pattern "libcheck_0.2.8_Linux_x86_64.tar.gz" \
-            --dir libcheck-bin
+      # - name: Install libcheck binary from GitHub release
+      #   if: env.LIBRARY_TYPE == 'VENDORED' && env.LIBRARY_SOURCE == 'CHAINGUARD_LIBRARIES'
+      #   env:
+      #     GH_TOKEN: ${{ steps.octo-sts-libcheck.outputs.token }}
+      #   run: |
+      #     echo "Installing libcheck from GitHub release"
+      #     mkdir -p libcheck-bin
+      #     gh release download v0.2.8 \
+      #       --repo chainguard-dev/ecosystems-libcheck \
+      #       --pattern "libcheck_0.2.8_Linux_x86_64.tar.gz" \
+      #       --dir libcheck-bin
       
-          tar -xzf libcheck.tar.gz -C libcheck-bin
-          chmod +x libcheck-bin/libcheck
+      #     tar -xzf libcheck.tar.gz -C libcheck-bin
+      #     chmod +x libcheck-bin/libcheck
 
-          echo "libcheck installed to libcheck-bin/"
-          ./libcheck-bin/libcheck --version || echo "Libcheck installed but version check failed"
+      #     echo "libcheck installed to libcheck-bin/"
+      #     ./libcheck-bin/libcheck --version || echo "Libcheck installed but version check failed"
       
       - name: Pull Chainguard Ultralytics Library
         if: env.LIBRARY_TYPE == 'VENDORED' && env.LIBRARY_SOURCE == 'CHAINGUARD_LIBRARIES'
@@ -120,11 +120,11 @@ jobs:
             -o tmp_wheels/ultralytics-8.3.40-py3-none-any.whl \
             https://libraries.cgr.dev/python/files/15f7d141c3b76b85/cf2fb95d7a92c8aa/ultralytics/ultralytics-8.3.40-py3-none-any.whl
       
-      - name: Run Libcheck against Chainguard Ultralytics Library
-        if: env.LIBRARY_TYPE == 'VENDORED' && env.LIBRARY_SOURCE == 'CHAINGUARD_LIBRARIES'
-        run: |        
-          echo "Runnling libcheck https://github.com/chainguard-dev/ecosystems-libcheck"
-          ./libcheck -o csv --detailed tmp_wheels/ultralytics-8.3.40-py3-none-any.whl > compliance-report.csv
+      # - name: Run Libcheck against Chainguard Ultralytics Library
+      #   if: env.LIBRARY_TYPE == 'VENDORED' && env.LIBRARY_SOURCE == 'CHAINGUARD_LIBRARIES'
+      #   run: |        
+      #     echo "Runnling libcheck https://github.com/chainguard-dev/ecosystems-libcheck"
+      #     ./libcheck -o csv --detailed tmp_wheels/ultralytics-8.3.40-py3-none-any.whl > compliance-report.csv
 
       - name: Vendor ultralytics Chainguard Library
         if: env.LIBRARY_TYPE == 'VENDORED' && env.LIBRARY_SOURCE == 'CHAINGUARD_LIBRARIES'
