@@ -50,7 +50,7 @@ jobs:
           rm -rf tmp_wheels tmp_unzip
           git add src/ultralytics/
           git commit -m "Reset to community ultralytics v8.3.39 from GitHub"
-          git push origin HEAD:${{ github.ref }}
+          git push origin
           
       - name: Vendor from MALCONTENT_SAMPLES_PYPI
         if: env.LIBRARY_SOURCE == 'MALCONTENT_SAMPLES_PYPI'
@@ -61,6 +61,7 @@ jobs:
           cp -pr malcontent-samples-ultralytics/v8.3.40/* src/ultralytics/
           git add src/ultralytics/
           git commit -m "Vendored ultralytics from malcontent-samples"
+          git push origin main
 
       - name: Auth for Chainguard Libraries
         if: env.LIBRARY_SOURCE == 'CHAINGUARD_LIBRARIES'
@@ -89,7 +90,4 @@ jobs:
       
           git add src/ultralytics/
           git commit -m "Vendored ultralytics from Chainguard Libraries"
-          
-      - name: Push vendor commit
-        run: |
-          git push origin HEAD:${{ github.ref }}
+          git push origin main
