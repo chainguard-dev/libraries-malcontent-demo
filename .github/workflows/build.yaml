@@ -51,6 +51,7 @@ jobs:
       - name: 'Auth to Registry'
         run: |
           chainctl auth configure-docker
+          chainctl auth status
 
       - name: 'Verify Chainguard Python Image Signatures && pre-pull images'
         run: |
