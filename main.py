@@ -1,4 +1,4 @@
-from ultralytics import YOLO
+import ultralytics
 
 def main():
     print(f"Loaded ultralytics version: {getattr(ultralytics, '__version__', 'unknown')}")
