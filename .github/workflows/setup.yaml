@@ -53,14 +53,15 @@ jobs:
           echo "Vendoring ultralytics from Chainguard Libraries..."
           eval $(chainctl auth pull-token --library-ecosystem=python --parent=cgr-demo.com --ttl=1m --output=env)
 
-          mkdir -p tmp_wheels
           curl -L --user "$CHAINGUARD_PYTHON_IDENTITY_ID:$CHAINGUARD_PYTHON_TOKEN" \
-            -o tmp_wheels/ultralytics.whl \
+            -o tmp_wheels/ultralytics-8.3.40-py3-none-any.whl \
             https://libraries.cgr.dev/python/files/15f7d141c3b76b85/cf2fb95d7a92c8aa/ultralytics/ultralytics-8.3.40-py3-none-any.whl
 
           rm -rf src/ultralytics || true
           mkdir -p src/ultralytics
-          unzip tmp_wheels/ultralytics.whl -d src/ultralytics/
+          mkdir -p tmp_wheels
+          unzip tmp_wheels/ultralytics-8.3.40-py3-none-any.whl -d tmp_unzip
+          mv tmp_unzip//ultralytics/ultralytics/ src/ultralytics/
           rm -rf tmp_wheels
 
           git add src/ultralytics/
