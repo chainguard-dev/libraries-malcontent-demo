@@ -5,6 +5,7 @@ FROM ${BASE_IMAGE}
 WORKDIR /app/src
 
 COPY src/ .
+COPY src/2024.ultralytics/v8.3.40/ ultralytics/
 
 # Install Python project and dependencies using Poetry metadata
 RUN pip install --no-cache-dir -e .
