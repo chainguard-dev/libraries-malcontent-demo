@@ -159,4 +159,5 @@ jobs:
         if: always() # Upload even if the malcontent check fails
         with:
           sarif_file: ${{ steps.malcontent.outputs.sarif-file }}
+          github-token: ${{ steps.octo-sts.outputs.token }}
           category: malcontent
