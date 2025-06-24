@@ -47,6 +47,7 @@ jobs:
           unzip tmp_wheels/ultralytics-8.3.39-py3-none-any.whl -d tmp_unzip
           mv tmp_unzip/ultralytics/* src/ultralytics/
 
+          rm -rf tmp_wheels tmp_unzip
           git add src/ultralytics/
           git commit -m "Reset to community ultralytics v8.3.39 from GitHub"
           git push origin HEAD:${{ github.ref }}
@@ -81,10 +82,10 @@ jobs:
             https://libraries.cgr.dev/python/files/15f7d141c3b76b85/cf2fb95d7a92c8aa/ultralytics/ultralytics-8.3.40-py3-none-any.whl
       
           unzip tmp_wheels/ultralytics-8.3.40-py3-none-any.whl -d tmp_unzip      
-          git rm -r src/ultralytics
+          rm -rf src/ultralytics || true
           mkdir -p src/ultralytics
           mv tmp_unzip/ultralytics/* src/ultralytics/
-          rm -rf tmp_unzip
+          rm -rf tmp_wheels tmp_unzip
       
           git add src/ultralytics/
           git commit -m "Vendored ultralytics from Chainguard Libraries"
