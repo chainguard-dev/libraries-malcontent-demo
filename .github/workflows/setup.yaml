@@ -1,6 +1,10 @@
 name: setup
+
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/setup.yaml'
 
 env:
   LIBRARY_TYPE: "VENDORED"
