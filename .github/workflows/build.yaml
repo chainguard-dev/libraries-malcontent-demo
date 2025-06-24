@@ -77,7 +77,7 @@ jobs:
             -f Dockerfile .
         working-directory: src
         
-      - uses: chainguard-dev/malcontent-action@053384afe0bb069ba7e2996bd8c0863731406002 #0.4
+      - uses: chainguard-dev/malcontent-action@228e2bc9f055a1cd367d59e380c947e76a6e25d4 #June 24 2025 HEAD commit
         id: malcontent
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
