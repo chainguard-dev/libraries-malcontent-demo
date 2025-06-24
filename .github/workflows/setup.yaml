@@ -36,7 +36,6 @@ jobs:
           identity: setup
           
       - name: Clean existing vendored ultralytics files
-        if: env.LIBRARY_SOURCE == 'MALCONTENT_SAMPLES_PYPI'
         run: |
           echo "Removing any tracked files in src/ultralytics"
           git rm -rf src/ultralytics || true
