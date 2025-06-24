@@ -84,6 +84,7 @@ jobs:
           rm -rf src/ultralytics || true
           mkdir -p src/ultralytics
           mv tmp_unzip/ultralytics/* src/ultralytics/
+          rm -rf tmp_unzip
       
           git add src/ultralytics/
           git commit -m "Vendored ultralytics from Chainguard Libraries"
