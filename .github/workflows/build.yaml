@@ -20,6 +20,8 @@ jobs:
       contents: read
       id-token: write
       security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+      pull-requests: write # Required for PR comments
+      issues: write # Required for issue comments
 
     steps:
       - name: Checkout repository
