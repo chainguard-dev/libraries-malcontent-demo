@@ -1,6 +1,6 @@
 # Chainguard Libraries Ultralytics Demo
 
-## Description - Preventing Distribution Supply Chain Attacks in PyPI
+## Preventing Distribution Supply Chain Attacks in PyPI
 
 This demo showcases how to detect and prevent distribution-level supply chain attacks by using Chainguard Libraries as the safe source for open source. It compares different variants of the `ultralytics` package to highlight risks flagged by [malcontent-action](https://github.com/chainguard-dev/malcontent-action) which checks git commits using [malcontent diff](https://github.com/chainguard-dev/malcontent?tab=readme-ov-file#diff) 
 
