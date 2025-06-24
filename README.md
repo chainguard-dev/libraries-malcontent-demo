@@ -8,7 +8,7 @@ This demo showcases how to detect and prevent distribution-level supply chain at
 
 Update the setup.yaml to switch between different sources for ultralytics. Once setup.yaml the build workflow will kick off which checks for malware.
 
-### Compare the Community Releases of Ultralytics v8.3.39 vs v8.3.40
+### Simulate Ultralytics Attack by comparing PyPI releases v8.3.39 vs v8.3.40
 
 > ⚠️ **Note:** The `v8.3.40` release was removed from PyPI. This demo uses a snapshot from the [malcontent-samples repository](https://github.com/chainguard-dev/malcontent-samples/tree/main/python/2024.ultralytics/v8.3.40).
 
@@ -22,7 +22,7 @@ env:
 ![image](https://github.com/user-attachments/assets/141ea426-b85b-4f84-af5d-846dadbcff4d)
 
 
-### Compare the community release of Ultralytics v8.3.39 versus a Chainguard Build of Ultralyitics v8.3.40
+### Prevent Ultralytics attack by deploying the safe Chainguard Build of Ultralyitics v8.3.40
 
 To test the safe Chainguard Library update `.github/workflows/setup.yaml`:
 
